@@ -12,8 +12,9 @@ def sum_of_num(n):
     
   return sum 
 
-for n in reversed(range(N + 1)):
+for n in range(N + 1):
   if sum_of_num(n) == N:
     number = n
+    break
 
 print(number)
