@@ -24,11 +24,10 @@ def combine_title_list(index_list):
 
 
 def is_word_cominations_possible(word, title_list):
-    word_counter = Counter(word)
-    title_counter = Counter(title_list)
+    title_list = Counter(title_list)
 
-    for word in word_counter:
-        if word_counter[word] > title_counter[word]:
+    for w in word:
+        if word[w] > title_list[w]:
             return False
 
     return True
