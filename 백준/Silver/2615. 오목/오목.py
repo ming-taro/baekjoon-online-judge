@@ -1,5 +1,4 @@
 import sys
-from collections import deque
 
 
 def is_stone_same(row, col, stone):
