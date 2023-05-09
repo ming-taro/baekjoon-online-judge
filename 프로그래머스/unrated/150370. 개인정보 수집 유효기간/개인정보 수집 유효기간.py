@@ -5,11 +5,6 @@ def is_within_range(today, period, term):
     month += period
     day -= 1
     
-    print("today: ", today_year, today_month, today_day)
-    print("after: ", year, month, day)
-    print("period: ", period)
-    print()
-    
     if day <= 0:
         day += 28
         month -= 1
@@ -26,14 +21,10 @@ def is_within_range(today, period, term):
         year += 1
         month -= 12
     
-    print("today: ", today_year, today_month, today_day)
-    print("after: ", year, month, day)
-    
     if (today_year*10000 + today_month*100 + today_day > 
         year*10000 + month*100 + day):
-        print("======True======")
         return True
-    print("======False======")
+    
     return False
     
 
