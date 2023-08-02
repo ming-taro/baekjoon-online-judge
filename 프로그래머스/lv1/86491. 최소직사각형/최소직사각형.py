@@ -1,8 +1,6 @@
 def solution(sizes):
     answer = 0
     
-    length = len(sizes)
-    
     max_x = 0
     max_y = 0
     
