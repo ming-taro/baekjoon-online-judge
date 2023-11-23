@@ -24,18 +24,18 @@ def solution(orders, course):
                 continue
             
             for count in course:
-                for m in combinations(menu, count):
+                for m in combinations(menu, count):   #해당 메뉴로 가능한 모든 음식 조합 개수 세기(course 리스트의 값들 만큼)
                     menu_comb = "".join(sorted(m))
-                    result[len(menu_comb)][menu_comb] += 1
+                    result[len(menu_comb)][menu_comb] += 1  #result에서 해당하는 메뉴개수의 counter배열에 음식 개수 + 1 업데이트
         
-    for menu_count in result:
+    for menu_count in result:  #모든 조합결과를 비교해봄
         if len(result[menu_count]) == 0:
             continue
             
-        max_count = max(result[menu_count].values())
+        max_count = max(result[menu_count].values())  #해당 메뉴개수의 dict에서 가장 큰 값
         
         for menu, count in result[menu_count].items():
-            if count == max_count:
+            if count == max_count:  #가장 많이 주문한 메뉴에 해당하면 최종주문목록에 추가함
                 answer.append(menu)
     
     return sorted(answer)
