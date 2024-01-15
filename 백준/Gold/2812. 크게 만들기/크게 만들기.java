@@ -13,32 +13,32 @@ public class Main {
         int K = Integer.parseInt(input[1]);
 
         String numberInput = reader.readLine();
-        Stack<Integer> numberStack = new Stack<>();
+        Deque<Integer> numberDeque = new ArrayDeque<>();
 
         for (char n : numberInput.toCharArray()) {
             int number = Character.getNumericValue(n);
 
-            while (K > 0 && !numberStack.empty() && number > numberStack.peek()) {
-                numberStack.pop();
+            while (K > 0 && !numberDeque.isEmpty() && number > numberDeque.peekLast()) {
+                numberDeque.pollLast();
                 K--;
             }
 
-            if (numberStack.empty() || K == 0 || number <= numberStack.peek()) {
-                numberStack.add(number);
+            if (numberDeque.isEmpty() || K == 0 || number <= numberDeque.peekLast()) {
+                numberDeque.add(number);
             }
         }
 
         while (K > 0) {
-            numberStack.pop();
+            numberDeque.pollLast();
             K--;
         }
 
         StringBuilder result = new StringBuilder();
 
-        while (!numberStack.isEmpty()) {
-            result.append(numberStack.pop());
+        while (!numberDeque.isEmpty()) {
+            result.append(numberDeque.poll());
         }
 
-        System.out.println(result.reverse().toString());
+        System.out.println(result.toString());
     }
 }
