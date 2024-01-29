@@ -24,7 +24,7 @@ public class Main {
         StringTokenizer stringTokenizer;
 
         int TC = Integer.parseInt(reader.readLine());
-        StringJoiner result = new StringJoiner("\n");
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < TC; i++) {
             stringTokenizer = new StringTokenizer(reader.readLine());
@@ -67,13 +67,13 @@ public class Main {
             }
 
             if (isNegativeCycle) {
-                result.add("YES");
+                result.append("YES").append("\n");
             } else {
-                result.add("NO");
+                result.append("NO").append("\n");
             }
         }
 
-        System.out.println(result.toString());
+        System.out.println(result);
     }
 
     private static boolean bellmanFord(int start) {
