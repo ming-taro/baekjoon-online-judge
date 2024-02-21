@@ -17,7 +17,7 @@ public class Main {
             textStack.push(text.charAt(i));
         }
 
-        Stack<Character> result = new Stack<>();
+        Deque<Character> result = new LinkedList<>();
         while (!textStack.isEmpty()) {
             result.push(textStack.pop());
             if (result.size() >= bombText.length() && result.peek() == lastText) {
@@ -28,15 +28,15 @@ public class Main {
         if (result.isEmpty()) {
             System.out.println("FRULA");
         } else {
-            System.out.println(
-                    result.stream()
-                            .map(Object::toString)
-                            .collect(Collectors.joining(""))
-            );
+            StringBuilder stringBuilder = new StringBuilder();
+            while (!result.isEmpty()) {
+                stringBuilder.append(result.pollLast());
+            }
+            System.out.println(stringBuilder.toString());
         }
     }
 
-    private static void checkBomb(Stack<Character> result, String bombText) {
+    private static void checkBomb(Deque<Character> result, String bombText) {
         Stack<Character> tmp = new Stack<>();
         int index = bombText.length() - 1;
 
