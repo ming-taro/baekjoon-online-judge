@@ -6,12 +6,12 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         int T = Integer.parseInt(reader.readLine());
-        Map<String, Integer> items = new HashMap<>();
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < T; i++) {
             int n = Integer.parseInt(reader.readLine());
-            items.clear();
+            Map<String, Integer> items = new HashMap<>();
+
             for (int j = 0; j < n; j++) {
                 String[] input = reader.readLine().split(" ");
 
