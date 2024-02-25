@@ -36,6 +36,10 @@ public class Main {
         if (row == 0 && col == C -1 && depth == K) {
             count++;
         }
+        if (row == 0 && col == C -1 || depth == K) {
+            return;
+        }
+
 
         int[] dx = {-1, 0, 1, 0}; //위, 오, 아, 왼
         int[] dy = {0, 1, 0, -1};
