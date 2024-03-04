@@ -14,11 +14,6 @@ class Room implements Comparable<Room>{
     public int compareTo(Room room) {
         return (int) (this.start - room.start);
     }
-
-    @Override
-    public String toString() {
-        return "[start:" + start + ", end:" + end + "]";
-    }
 }
 
 public class Main {
