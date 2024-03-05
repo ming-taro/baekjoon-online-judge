@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static List<Integer>[] board;
+    private static int[][] board;
+    private static int[] parent;
     private static int N;
 
     public static void main(String[] args) throws IOException {
@@ -10,18 +11,19 @@ public class Main {
 
         N = Integer.parseInt(reader.readLine());  //도시 수
         int M = Integer.parseInt(reader.readLine());  //여행 계획에 속한 도시 수
-        board = new ArrayList[N + 1];
+
+        board = new int[N + 1][N + 1];
+        parent = new int[N + 1];
 
         for (int i = 1; i <= N; i++) {
-            board[i] = new ArrayList<>();
+            parent[i] = i;
         }
 
         for (int i = 1; i <= N; i++) {
-            StringTokenizer input = new StringTokenizer(reader.readLine());
+            StringTokenizer number = new StringTokenizer(reader.readLine());
             for (int j = 1; j <= N; j++) {
-                if (input.nextToken().equals("1")) { //연결 되어 있음
-                    board[i].add(j);
-                    board[j].add(i);
+                if (number.nextToken().equals("1")) {
+                    union(i, j);
                 }
             }
         }
@@ -30,36 +32,34 @@ public class Main {
                 .mapToInt(Integer::parseInt)
                 .toArray();   //여행 계획
 
-        for (int i = 0; i < M - 1; i++) {
-            if (!canGo(plan[i], plan[i + 1])) {
-                System.out.println("NO");
-                return;
+        if (M > 1) {
+            int prev = findParent(plan[0]);
+
+            for (int i = 1; i < M; i++) {
+                if (prev != findParent(plan[i])) {
+                    System.out.println("NO");
+                    return;
+                }
             }
         }
         System.out.println("YES");
     }
 
-    private static boolean canGo(int start, int end) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(start);
+    private static void union(int start, int end) {   //두 정점은 인접하게 연결 되어 있음
+        int parentA = findParent(start);              //두 정점의 루트 노드를 찾음
+        int parentB = findParent(end);
 
-        boolean[] visited = new boolean[N + 1];
-        visited[start] = true;
-
-        while(!queue.isEmpty()) {
-            int current = queue.poll();
-            if (current == end) {
-                return true;
-            }
-
-            for (int next: board[current]) {
-                if (!visited[next]) {
-                    queue.offer(next);
-                    visited[next] = true;
-                }
-            }
+        if (parentA != parentB) {     //각 정점의 루트가 다르다면 작은 번호의 루트 노드 하나로 통일 -> 합집합
+            parent[parentA] = Math.min(parentA, parentB);
+            parent[parentB] = Math.min(parentA, parentB);
         }
+    }
 
-        return false;
+    private static int findParent(int a) {
+        if (parent[a] == a) {
+            return a;
+        }
+        parent[a] = findParent(parent[a]);
+        return parent[a];  //루트 노드를 찾음(1->2->3->4 처럼 깊이가 깊어지는 트리의 경우 부모값을 저장하면서 재귀를 돌리면 1, 2, 3의 부모 노드가 4가 됨 => 경로 압축)
     }
 }
