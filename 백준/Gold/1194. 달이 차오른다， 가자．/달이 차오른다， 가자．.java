@@ -15,18 +15,13 @@ class Point {
     }
 
     public void addKey(char key) {
-        int index = key - 'a';
-        int newKey = (int) Math.pow(2, index);
-
+        int newKey = 1 << key - 'a';
         this.key |= newKey;
     }
 
     public boolean hasKey(char door) {
-        int index = door - 'A';
-        int key = (int) Math.pow(2, index);
-
-        int prevKey = this.key;
-        return !Integer.toBinaryString(prevKey & key).equals("0");
+        int newKey = 1 << door - 'A';
+        return !Integer.toBinaryString(this.key & newKey).equals("0");
     }
 
     @Override
