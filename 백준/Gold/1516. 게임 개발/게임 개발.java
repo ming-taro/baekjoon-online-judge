@@ -1,21 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-class Position {
-    int row;
-    int col;
-
-    public Position(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
-}
-
 public class Main {
     private static int N;
     private static List<Integer>[] child;
-    private static int[] totalTime;   //총 건설 시간
-    private static int[] constructionTime;        //건물 건설 시간
+    private static int[] totalTime;            //총 건설 시간
+    private static int[] constructionTime;     //건물 건설 시간
     private static int[] count;
 
     public static void main(String[] args) throws IOException {
