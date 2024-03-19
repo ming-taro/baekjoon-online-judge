@@ -75,7 +75,7 @@ public class Main {
                     int newPath = distance[i] + next.weight;
                     if (newPath > distance[next.end]) {  //정점까지의 거리가 최대가 되는 길을 찾아서 무한한 양의 값으로 가는 싸이클이 발생하는지 확인한다
                         distance[next.end] = newPath;
-                        prevNode[next.end] = i;
+                        prevNode[next.end] = i;    //다음 노드, 즉 next를 방문하려는 시점에 현재 방문중인 정점을 저장함 -> 가장 많은 가중치를 부여했을때의 정점으로 출력해야하므로 계속해서 업데이트해주면 따로 경로를 찾지 않아도 됨 
                         if (loop == n && isCycleToEnd(next.end)) {  //n번째에도 길이 업데이트됨 -> 양의 싸이클 존재
                             return true;
                         }
@@ -87,7 +87,7 @@ public class Main {
         return false;
     }
 
-    private static boolean isCycleToEnd(int start) {
+    private static boolean isCycleToEnd(int start) {   //싸이클이 생긴 시점에서, 싸이클 중 하나의 정점에서 n번까지 도달할 수 있는지 확인 == 1번에서 n 사이의 싸이클 때문에 도달할 수 없다 
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(start);
 
