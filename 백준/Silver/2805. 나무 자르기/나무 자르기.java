@@ -1,45 +1,45 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
+    private static long N, M;
+    private static long[] trees;
+
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer stringTokenizer = new StringTokenizer(reader.readLine());
-        long N = Integer.parseInt(stringTokenizer.nextToken());
-        long M = Integer.parseInt(stringTokenizer.nextToken());
+        StringTokenizer st = new StringTokenizer(reader.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        long[] trees = Arrays.stream(reader.readLine().split(" "))
+        trees = Arrays.stream(reader.readLine().split(" "))
                 .mapToLong(Long::parseLong)
                 .toArray();
-        Arrays.sort(trees);
 
-        long start = 1;
-        long end = 1_000_000_000;
+        System.out.println(findTreeHeight());
+    }
+
+    private static long findTreeHeight() {
+        long start = 0;
+        long end = Arrays.stream(trees).max().getAsLong();
 
         while (start <= end) {
-            long target = (start + end) / 2;  //절단할 높이의 최댓값
-            long sum = 0;
+            long middle = (start + end) / 2;
 
-            for (long tree: trees){
-                if (tree > target) {
-                    sum += tree - target;  //가져갈 나무 길이
-                }
-
-                if (sum >= M) {
-                    break;
+            long total = 0;
+            for (long tree: trees) {
+                if (tree > middle) {
+                    total += tree - middle;
                 }
             }
 
-            if (sum < M) {
-                end = target - 1;
+            if (total < M) {
+                end = middle - 1;
             } else {
-                start = target + 1;
+                start = middle + 1;
             }
         }
 
-        System.out.println(end);
+        return end;
     }
 }
