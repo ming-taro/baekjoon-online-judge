@@ -18,13 +18,13 @@ class Node implements Comparable<Node>{
             return this.time - node.time;
         }
 
-        if (this.min > node.min) {
-            return 1;
+        if (this.min < node.min) {
+            return -1;
         }
         if (this.max < node.max) {
-            return 1;
+            return -1;
         }
-        return -1;
+        return 1;
     }
 }
 
@@ -78,7 +78,6 @@ public class Main {
     }
 
     private static void calcTime(int start) {
-
         Arrays.fill(time[start], INF);
         time[start][start] = 0;
 
