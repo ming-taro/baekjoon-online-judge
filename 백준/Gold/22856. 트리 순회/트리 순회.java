@@ -13,12 +13,12 @@ class Node {
 
 public class Main {
     private static Node[] nodes;
-    private static int moveCount;
     private static boolean[] visited;
-    private static int depth = 0;
     private static int N;
-    private static int lastNode = 0;
-    private static int result = 0;
+    private static int moveCount;
+    private static int depth;
+    private static int lastNode;
+    private static int result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -64,19 +64,16 @@ public class Main {
             visited[current] = true;
             depth++;
         }
-        if (current == lastNode && depth == N) { // 현재노드가 이미 방문한 노드이면서 중위순회의 마지막 노드인 경우
-            result = moveCount;
+        if (isLastNode(current)) {
             return;
         }
-
 
         if (nodes[current].left != -1) {
             moveCount++;
             dfs(nodes[current].left);
             moveCount++;
 
-            if (current == lastNode && depth == N) { // 현재노드가 이미 방문한 노드이면서 중위순회의 마지막 노드인 경우
-                result = moveCount;
+            if (isLastNode(current)) {
                 return;
             }
         }
@@ -85,10 +82,17 @@ public class Main {
             dfs(nodes[current].right);
             moveCount++;
 
-            if (current == lastNode && depth == N) { // 현재노드가 이미 방문한 노드이면서 중위순회의 마지막 노드인 경우
-                result = moveCount;
+            if (isLastNode(current)) {
                 return;
             }
         }
+    }
+
+    private static boolean isLastNode(int current) {
+        if (current == lastNode && depth == N) { // 현재노드가 중위순회의 마지막 노드 && 모든 노드를 방문함
+            result = moveCount;
+            return true;
+        }
+        return false;
     }
 }
