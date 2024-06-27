@@ -1,82 +1,47 @@
 import java.util.*;
 
-class Music implements Comparable<Music>{
-    String genre;
+class Music implements Comparable<Music> {
     int index;
-    int play;
+    int plays;
     
-    public Music(String genre, int play) {
-        this.genre = genre;
-        this.play = play;
-    }
-    
-    public Music(int index, int play) {
+    public Music(int index, int plays) {
         this.index = index;
-        this.play = play;
+        this.plays = plays;
     }
     
     @Override
     public int compareTo(Music music) {
-        if (music.play == this.play) {
-            return this.index - music.index;
-        }
-        return music.play - this.play;
+        return music.plays - this.plays;
     }
-    
-    @Override
-    public String toString(){
-        return "genre: " + genre + ", index: " + index + ", play: " + play;
-    }
-}
+} 
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        List<Integer> answer = new ArrayList<>();
+        int[] answer = {};
         
-        List<Music> musics = new ArrayList<>();
-        Map<String, Integer> indexs = new HashMap<>();
-        Map<String, Queue<Music>> result = new HashMap<>();
+        Map<String, Integer> counts = new HashMap<>();
+        Map<String, PriorityQueue<Music>> result = new HashMap<>();
         
         for (int i = 0; i < genres.length; i++) {
-            if (indexs.containsKey(genres[i])) {
-                int index = indexs.get(genres[i]);
-                musics.get(index).play += plays[i];
+            if (counts.containsKey(genres[i])) {
+                counts.put(genres[i], counts.get(genres[i]) + plays[i]);
             } else {
-                indexs.put(genres[i], musics.size());
-                musics.add(new Music(genres[i], plays[i]));
-                result.put(genres[i], new PriorityQueue<>());
+                counts.put(genres[i], plays[i]);
+                Queue<Music> indexs = new PriorityQueue<>();
+                indexs.offer(new Music(i, plays[i]));
+                result.put(genres[i], indexs);
             }
         }
         
-        Collections.sort(musics);
+        for ()
         
-        for (int i = 0; i < genres.length; i++) {
-            Queue<Music> queue = result.get(genres[i]);
-            queue.offer(new Music(i, plays[i]));
-        }
         
-        for (int i = 0; i < musics.size(); i++) {
-            String genre = musics.get(i).genre;
-            Queue<Music> queue = result.get(genre);
-            answer.add(queue.poll().index);
-            if (!queue.isEmpty()) {
-                answer.add(queue.poll().index);
-            }
-        }
-        
-        System.out.println(answer);
-        
-        return answer.stream()
-            .mapToInt(Integer::intValue)
-            .toArray();
+        return answer;
     }
 }
 /*
-[입력]
-장르 - 재생횟수
+return 장르별로 가장 많이 재생된 노래 2개
 
-->장르별 재생횟수별 순위 : Map
-->장르 내에서 재생횟수별 순위 : PriorityQueue
-=>장르 먼저, 장르 내 1~2순위 곡
+노래 수록 기준에 따라 
 
 */
