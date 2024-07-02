@@ -9,9 +9,8 @@ class Solution {
         for (int scov: scoville) {
             queue.offer(scov);
         }
-        // System.out.println(queue);
         
-        while (queue.size() > 1) {
+        while (queue.size() >= 2) {
             int first = queue.poll();
             if (first >= K) {
                 break;
@@ -20,7 +19,6 @@ class Solution {
             
             queue.offer(first + second * 2);
             answer++;
-            // System.out.println(queue);
         }
         
         if (queue.peek() >= K) {
@@ -33,5 +31,4 @@ class Solution {
 /*
 ->모든 음식의 스코빌 지수를 K이상으로 만들고 싶다
 ->스코빌 지수가 가장 낮은 두 개 음식 = 첫번째 + 두번째*2
-
 */
