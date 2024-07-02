@@ -14,9 +14,8 @@ class Solution {
             int first = queue.poll();
             if (first >= K) {
                 break;
-            }
+            }          
             int second = queue.poll();
-            
             queue.offer(first + second * 2);
             answer++;
         }
