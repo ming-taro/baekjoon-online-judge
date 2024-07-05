@@ -6,15 +6,17 @@ class Solution {
         Deque<Character> queue = new ArrayDeque<>();
         
         answer = new_id.toLowerCase(); // 1단계
-        answer = answer.replaceAll("[^.a-z0-9_-]", ""); // 2단계
+        answer = answer.replaceAll("[^a-z0-9_\\-.]", ""); // 2단계
         answer = answer.replaceAll("[\\.]+", "."); // 3단계
         
-        if (answer.length() > 0 && answer.charAt(0) == '.') { // 4단계
-            answer = answer.substring(1);
-        }
-        if (answer.length() > 0 && answer.charAt(answer.length() - 1) == '.') {
-            answer = answer.substring(0, answer.length() - 1);
-        }
+        // if (answer.length() > 0 && answer.charAt(0) == '.') { // 4단계
+        //     answer = answer.substring(1);
+        // }
+        // if (answer.length() > 0 && answer.charAt(answer.length() - 1) == '.') {
+        //     answer = answer.substring(0, answer.length() - 1);
+        // }
+        answer = answer.replaceAll("^[\\.]", ""); // 2단계
+        answer = answer.replaceAll("[\\.]$", ""); // 2단계     
 
         if (answer.isEmpty()) { // 5단계
             answer = "a";
