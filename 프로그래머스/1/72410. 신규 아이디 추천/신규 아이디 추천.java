@@ -15,8 +15,8 @@ class Solution {
         // if (answer.length() > 0 && answer.charAt(answer.length() - 1) == '.') {
         //     answer = answer.substring(0, answer.length() - 1);
         // }
-        answer = answer.replaceAll("^[\\.]", ""); // 4단계
-        answer = answer.replaceAll("[\\.]$", ""); // 4단계     
+        answer = answer.replaceAll("(^[\\.])|([\\.]$)", ""); // 4단계
+        // answer = answer.replaceAll("[\\.]$", ""); // 4단계     
 
         if (answer.isEmpty()) { // 5단계
             answer = "a";
