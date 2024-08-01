@@ -60,7 +60,6 @@ public class Main {
                 if (board[node[1].row][node[1].col] == 'O') { // 빨강이 파랑이 동시 탈출
                     return 0;
                 }
-//                System.out.println("red: " + node[0].count);
                 return 1;
             }
 
@@ -68,17 +67,14 @@ public class Main {
                 Node nextRed = move(node[0], i, node[1]);
                 Node nextBlue = move(node[1], i, nextRed);
 
-                if (board[nextRed.row + dx[i]][nextRed.col + dy[i]] == '.'
-                    && board[nextRed.row][nextRed.col] != 'O') {
+                if (canMove(nextRed, i)) {
                     nextRed = move(nextRed, i, nextBlue);
                 }
-                if (board[nextBlue.row + dx[i]][nextBlue.col + dy[i]] == '.'
-                    && board[nextBlue.row][nextBlue.col] != 'O') {
+                if (canMove(nextBlue, i)) {
                     nextBlue = move(nextBlue, i, nextRed);
                 }
 
                 nextRed.count++;
-                nextBlue.count++;
 
                 if (board[nextBlue.row][nextBlue.col] == 'O') { // 파랑이가 먼저 구멍으로 빠지면 실패
                     continue;
@@ -90,6 +86,11 @@ public class Main {
         }
 
         return 0;
+    }
+
+    private static boolean canMove(Node node, int d) {
+        return board[node.row + dx[d]][node.col + dy[d]] == '.'
+                && board[node.row][node.col] != 'O';
     }
 
     private static Node move(Node node, int d, Node compare) {
