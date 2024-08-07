@@ -1,98 +1,72 @@
 import java.util.*;
 
-class Node{
+class Node {
     int row;
     int col;
     
-    public Node(int row, int col) {
+    public Node (int row, int col) {
         this.row = row;
         this.col = col;
     }
 }
 
 class Solution {
-    private int N = 5;
-    
     public int[] solution(String[][] places) {
-        int[] answer = new int[N];
+        int[] answer = new int[5];
         
-        for (int i = 0; i < N; i++) {
-            answer[i] = checkDistance(places[i]);
+        for (int i = 0; i < 5; i++) {
+            answer[i] = checkBoard(places[i], i);
         }
         
         return answer;
     }
     
-    private int checkDistance (String[] place) {
-        List<Node> people = new ArrayList<>();
-        
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
-                if (place[row].charAt(col) == 'P') {
-                    people.add(new Node(row, col));
-                }
-            }
-        }
-        
-        for (int i = 0; i < people.size(); i++) {
-            for (int j = i + 1; j < people.size(); j++) {
-                Node left = people.get(i).col < people.get(j).col ? people.get(i) : people.get(j);
-                Node right = left == people.get(i) ? people.get(j) : people.get(i);
-                
-                int distance = Math.abs(left.row - right.row) + Math.abs(left.col - right.col);
-                
-                if (!(distance > 2 
-                    || distance <= 2 && isCorrect(left, right, place))) {
-                    return 0;
+    private int checkBoard(String[] place, int index) {
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 5; col++) {               
+                if (place[row].charAt(col) == 'P'){
+                    if (!bfs(new Node(row, col), place)) {
+                        return 0;
+                    }
                 }
             }
         }
         return 1;
     }
     
-    private boolean isCorrect(Node left, Node right, String[] place) {
-        int[] dx = {-1, 0, 1, 0}; // 위, 오, 아, 왼
-        int[] dy = {0, 1, 0, -1};
+    private boolean bfs(Node start, String[] place) {
+        int[] dx = { -1, 0, 1, 0 }; // 위, 오, 아, 왼
+        int[] dy = { 0, 1, 0, -1 };
         
-        /* XP
-         * PX
-         */
-        if (left.row + dx[0] == right.row    
-            && left.col + dy[1] == right.col
-            && place[left.row - 1].charAt(left.col) == 'X' 
-            && place[left.row].charAt(left.col + 1) == 'X') {
-            return true;
+        Queue<Node> queue = new ArrayDeque<>();
+        int[][] visited = new int[5][5];
+        
+        queue.offer(start);
+        visited[start.row][start.col] = 1;
+        
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            
+            for (int i = 0; i < 4; i++) {
+                Node next = new Node(current.row + dx[i], current.col + dy[i]);
+                if (isValid(next)
+                    && visited[next.row][next.col] == 0
+                    && Math.abs(start.row - next.row) + Math.abs(start.col - next.col) <= 2) {
+                    if (place[next.row].charAt(next.col) == 'P') { // 맨해튼 거리 내에 다른 응시자가 존재하는 경우
+                        return false;
+                    }
+                    if (place[next.row].charAt(next.col) == 'O') {
+                        queue.offer(next);
+                        visited[next.row][next.col] = visited[current.row][current.col] + 1;
+                    }
+                }
+            }
         }
         
-        /* PX
-         * XP
-         */
-        if (left.row + dx[2] == right.row
-          && left.col + dy[1] == right.col
-          && place[left.row].charAt(left.col + 1) == 'X'
-          && place[left.row + 1].charAt(left.col) == 'X') {// 아오
-            return true;
-        }
-        
-        /* PXP */
-        if (left.row == right.row
-           && left.col + 2 == right.col
-           && place[left.row].charAt(left.col + 1) == 'X') {
-            return true;
-        }
-        
-        /* P
-         * X
-         * P
-         */
-        Node top = left.row < right.row ? left : right;
-        Node bottom = top == left ? right : left;
-        if (top.col == bottom.col 
-            && top.row + 2 == bottom.row
-            && place[top.row + 1].charAt(top.col) == 'X') {
-            return true;
-        }
-        
-        return false;
+        return true;
+    }
+    
+    private boolean isValid(Node node) {
+        return node.row >= 0 && node.row < 5 && node.col >= 0 && node.col < 5;
     }
 }
