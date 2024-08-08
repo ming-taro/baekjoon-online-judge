@@ -3,57 +3,57 @@ import java.util.*;
 class Solution {
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
+        int N = words.length;
         
-        List<Integer>[] list = new ArrayList[words.length];
-        for (int i = 0; i < words.length; i++) {
-            list[i] = new ArrayList<>();
+        List<Integer>[] nodes = new ArrayList[N];
+        for (int i = 0; i < N; i++) {
+            nodes[i] = new ArrayList<>();
         }
         
-        for (int i = 0; i < words.length - 1; i++) {
-            for (int j = i + 1; j < words.length; j++) {
-                if (isReplaceable(words[i], words[j])) {
-                    list[i].add(j);
-                    list[j].add(i);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i != j && isValid(words[i], words[j])) {
+                    nodes[i].add(j);
+                    nodes[j].add(i);
                 }
             }
         }
         
-        Queue<int[]> queue = new ArrayDeque<>();
-        boolean[] visited = new boolean[words.length];
-        
-        for (int i = 0; i < words.length; i++) {
-            if (isReplaceable(words[i], begin)) {
-                queue.offer(new int[]{i, 1});
-                visited[i] = true;
+        Queue<Integer> queue = new ArrayDeque<>();
+        int[] visited = new int[N];
+        for (int i = 0; i < N; i++) {
+            if (isValid(begin, words[i])) {
+                queue.offer(i);
+                visited[i] = 1;
             }
         }
         
         while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            if (words[current[0]].equals(target)) {
-                return current[1];
+            int current = queue.poll();
+            if (words[current].equals(target)) {
+                return visited[current];
             }
             
-            for(int next: list[current[0]]) {
-                if (!visited[next]) {
-                    queue.offer(new int[]{next, current[1] + 1});
-                    visited[next] = true;
+            for (int next: nodes[current]) {
+                if (visited[next] == 0) {
+                    visited[next] = visited[current] + 1;
+                    queue.offer(next);
                 }
             }
         }
-         
+        
+        
         return answer;
     }
     
-    private static boolean isReplaceable(String word, String target) {
+    private static boolean isValid(String word, String target) {
         int count = 0;
-        
         for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == target.charAt(i)) {
+            if (word.charAt(i) != target.charAt(i)) {
                 count++;
             }
         }
         
-        return count == word.length() - 1 ? true : false;
+        return count == 1 ? true : false;
     }
 }
