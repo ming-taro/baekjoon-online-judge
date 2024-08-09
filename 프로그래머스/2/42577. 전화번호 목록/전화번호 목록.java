@@ -4,18 +4,10 @@ class Solution {
     public boolean solution(String[] phone_book) {
         int N = phone_book.length;
         Set<String> numbers = new HashSet<>();
-        Map<Integer, Set<String>> sameLengthNumbers = new HashMap<>();
         Set<Integer> lengthSize = new HashSet<>();
         
         for (String phone: phone_book) {
             lengthSize.add(phone.length());
-            if (sameLengthNumbers.containsKey(phone.length())) {
-                sameLengthNumbers.get(phone.length()).add(phone);
-            } else {
-                Set<String> tmp = new HashSet<>();
-                tmp.add(phone);
-                sameLengthNumbers.put(phone.length(), tmp);
-            }
         }
         
         Iterator<Integer> iter;
