@@ -29,8 +29,6 @@ class Solution {
                 task = current - jobs[index][0] + jobs[index][1];
                 period = current + jobs[index][1];
             }   
-            // System.out.println("task: start - " + jobs[index][0] + ", time - " + jobs[index][1]);
-            // System.out.println("걸린시간: " + task);
             answer += task;
             current = period;
             nodes.remove(0);
