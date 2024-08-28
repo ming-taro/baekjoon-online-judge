@@ -6,6 +6,7 @@ This is a auto push repository for Baekjoon Online Judge created with [BaekjoonH
 ## Array
 |  |
 | ------- |
+| [0221-maximal-square](https://github.com/ming-taro/baekjoon-online-judge/tree/master/0221-maximal-square) |
 | [0300-longest-increasing-subsequence](https://github.com/ming-taro/baekjoon-online-judge/tree/master/0300-longest-increasing-subsequence) |
 | [1325-path-with-maximum-probability](https://github.com/ming-taro/baekjoon-online-judge/tree/master/1325-path-with-maximum-probability) |
 ## Graph
@@ -27,5 +28,10 @@ This is a auto push repository for Baekjoon Online Judge created with [BaekjoonH
 ## Dynamic Programming
 |  |
 | ------- |
+| [0221-maximal-square](https://github.com/ming-taro/baekjoon-online-judge/tree/master/0221-maximal-square) |
 | [0300-longest-increasing-subsequence](https://github.com/ming-taro/baekjoon-online-judge/tree/master/0300-longest-increasing-subsequence) |
+## Matrix
+|  |
+| ------- |
+| [0221-maximal-square](https://github.com/ming-taro/baekjoon-online-judge/tree/master/0221-maximal-square) |
 <!---LeetCode Topics End-->
