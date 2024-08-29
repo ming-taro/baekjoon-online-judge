@@ -1,46 +1,36 @@
 class Solution {
-    private int n;
-    private int m;
-    private char[][] matrix;
-
     public int maximalSquare(char[][] matrix) {
-        n = matrix.length;
-        m = matrix[0].length;
-        this.matrix = matrix;
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int[][] dp = new int[n + 1][m + 1];
         int answer = 0;
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (matrix[i][j] == '1') {
-                    System.out.println(i + ", " + j);
-                    answer = Math.max(answer, countSquare(i, j));
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j - 1], dp[i - 1][j]), dp[i][j - 1]) + 1;
+                    answer = Math.max(answer, dp[i][j]);
                 }
             }
         }
 
         return answer * answer;
     }
+}
+/*
+01
+10
 
-    private int countSquare(int row, int col) {
-        int len = 1;
+000
+000
+000
 
-        for (int k = 1; k < Math.min(n, m); k++) {
-            if (row + k >= n || col + k >= m) { // 범위를 벗어남
-                return len;
-            }
-
-            for (int i = col; i <= col + k; i++) { // 가로
-                if (matrix[row + k][i] == '0') {
-                    return len;
-                }
-            }
-            for (int i = row; i <= row + k; i++) { // 세로
-                if (matrix[i][col + k] == '0') {
-                    return len;
-                }
-            }
-            len++;
-        }
-        return len;
+for (int i = 1; i<= matrix.length; i++) {
+    for (int j = 1; j <= matrix[0].length; j++) {
+        if (matrix[i-1][j-1] == '0') continue;
+        
+        dp[i][j] = Math.min(dp[i-1][j], Math.min(dp[i][j-1], dp[i-1][j-1])) + 1;
+        answer = Math.max(answer, dp[i][j]);
     }
 }
+*/
