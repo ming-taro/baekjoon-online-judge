@@ -1,57 +1,40 @@
-import java.util.*;
-
-class Edge implements Comparable<Edge> {
-    int node;
-    double probability;
-
-    public Edge(int node, double probability) {
-        this.node = node;
-        this.probability = probability;
-    }
-
-    @Override
-    public int compareTo(Edge other) {
-        return Double.compare(other.probability, this.probability);
+class Node {
+    int num;
+    double value;
+    public Node(int num, double value) {
+        this.num = num;
+        this.value = value;
     }
 }
 
 class Solution {
-    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
-        Map<Integer, List<Edge>> graph = new HashMap<>();
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
+        List<Node>[] nodes = new ArrayList[n];
         for (int i = 0; i < n; i++) {
-            graph.put(i, new ArrayList<>());
+            nodes[i] = new ArrayList<>();
         }
         for (int i = 0; i < edges.length; i++) {
-            int u = edges[i][0];
-            int v = edges[i][1];
-            double prob = succProb[i];
-            graph.get(u).add(new Edge(v, prob));
-            graph.get(v).add(new Edge(u, prob));
+            nodes[edges[i][0]].add(new Node(edges[i][1], succProb[i]));
+            nodes[edges[i][1]].add(new Node(edges[i][0], succProb[i]));
         }
 
-        double[] maxProb = new double[n];
-        Arrays.fill(maxProb, 0.0);
-        maxProb[start] = 1.0;
-        
-        Queue<Edge> pq = new PriorityQueue<>();
-        pq.add(new Edge(start, 1.0));
+        double[] distance = new double[n];
+        distance[start_node] = 1;
 
-        while (!pq.isEmpty()) {
-            Edge cur = pq.poll();
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.offer(start_node);
 
-            if (cur.node == end) {
-                return cur.probability;
-            }
-
-            for (Edge next : graph.get(cur.node)) {
-                double newProb = cur.probability * next.probability;
-                if (newProb > maxProb[next.node]) {
-                    maxProb[next.node] = newProb;
-                    pq.add(new Edge(next.node, newProb));
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            for (Node next: nodes[current]) {
+                double value = next.value * distance[current];
+                if (value > distance[next.num]) {
+                    distance[next.num] = value;
+                    queue.offer(next.num);
                 }
             }
         }
 
-        return maxProb[end];
+        return distance[end_node];
     }
 }
