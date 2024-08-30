@@ -1,17 +1,12 @@
 import java.util.*;
 
 class Solution {
-    private static final int NODE = 0;
-    private static final int GATE = 1;
-    private static final int SUMMIT = 2;
+    private static final int SUMMIT = 1;
     
     public int[] solution(int n, int[][] paths, int[] gates, int[] summits) {
         int[] answer = { 0, Integer.MAX_VALUE };
         int[] info = new int[n + 1];
         
-        for (int g: gates) {   // 출입구
-            info[g] = GATE;
-        }
         for (int s: summits) { // 봉우리
             info[s] = SUMMIT;
         }
@@ -40,15 +35,14 @@ class Solution {
                 int value = Math.max(distance[current[0]], next[1]);
                 if (value < distance[next[0]]) {
                     distance[next[0]] = value;
-                    if (info[next[0]] == NODE){
-                        queue.offer(new int[]{next[0], Math.min(current[1], next[1])});
+                    if (info[next[0]] != SUMMIT){
+                        queue.offer(new int[]{next[0], value});
+                        continue;
                     }
-                    if (info[next[0]] == SUMMIT) {
-                        if (distance[next[0]] < answer[1]
-                            || answer[1] == distance[next[0]] && next[0] < answer[0]) {
-                            answer[0] = next[0];
-                            answer[1] = distance[next[0]];
-                        }
+                    if (distance[next[0]] < answer[1]
+                        || answer[1] == distance[next[0]] && next[0] < answer[0]) {
+                        answer[0] = next[0];
+                        answer[1] = distance[next[0]];
                     }
                 }
             }
