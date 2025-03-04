@@ -36,13 +36,16 @@ public class Main {
 
     private static int calcLeft(long x, long y) {
         int left = 0;
-        int right = target.length;
+        int right = target.length - 1;
         int mid = 0;
 
 //        System.out.println("\nx = " + x + ", y = " + y);
 //        System.out.println(Arrays.toString(target));
-        while (left < right) {
+        while (left <= right) {
             mid = (left + right) / 2;
+//            if (mid >= target.length) {
+//                return target.length - 1;
+//            }
 //            System.out.println("left = " + left + ", right = " + right + ", mid = " + mid);
             if (target[mid] < x) {
                 left = mid + 1;
