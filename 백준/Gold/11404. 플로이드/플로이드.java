@@ -31,9 +31,6 @@ public class Main {
                     if (nodes[i][k] != Integer.MAX_VALUE && nodes[k][j] != Integer.MAX_VALUE) {
                         nodes[i][j] = Math.min(nodes[i][j], nodes[i][k] + nodes[k][j]);
                     }
-                    if (nodes[j][k] != Integer.MAX_VALUE && nodes[k][i] != Integer.MAX_VALUE) {
-                        nodes[j][i] = Math.min(nodes[j][i], nodes[j][k] + nodes[k][i]);
-                    }
                 }
             }
         }
