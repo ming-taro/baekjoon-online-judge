@@ -30,7 +30,7 @@ class Main {
                     toIndex.put(friend[1], index++);
                 }
 
-                System.out.println(union(parent, child, toIndex.get(friend[0]), toIndex.get(friend[1])));
+                System.out.println(child[union(parent, child, toIndex.get(friend[0]), toIndex.get(friend[1]))]);
             }
         }
     }
@@ -39,16 +39,14 @@ class Main {
         int xParent = findParent(parent, x);
         int yParent = findParent(parent, y);
 
-        if (xParent == yParent) {
-            return child[xParent];
+        if (xParent < yParent) {                // x <- y
+            child[xParent] += child[yParent];
+            return parent[yParent] = xParent;
+        } else if (xParent > yParent) {
+            child[yParent] += child[xParent];   // y <- x
+            return parent[xParent] = yParent;
         }
-
-        if (xParent < yParent) {            // x <- y
-            parent[yParent] = xParent;
-            return child[xParent] += child[yParent];
-        }
-        parent[xParent] = yParent;
-        return child[yParent] += child[xParent];   // y <- x
+        return xParent;
     }
 
     private static int findParent(int[] parent, int current) {
