@@ -1,45 +1,37 @@
+import javax.management.loading.MLet;
 import java.io.*;
 import java.util.*;
 
-public class Main {
-    private static long N, M;
-    private static long[] trees;
-
-    public static void main(String[] args) throws IOException {
+class Main {
+    public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(reader.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        trees = Arrays.stream(reader.readLine().split(" "))
+        long[] trees = Arrays.stream(reader.readLine().split(" "))
                 .mapToLong(Long::parseLong)
                 .toArray();
 
-        System.out.println(findTreeHeight());
+        System.out.println(calcTree(M, trees));
     }
 
-    private static long findTreeHeight() {
-        long start = 0;
-        long end = Arrays.stream(trees).max().getAsLong();
-
-        while (start <= end) {
-            long middle = (start + end) / 2;
-
+    private static long calcTree(int target, long[] trees) {
+        long left = -1;
+        long right = 2_000_000_001;
+        while (left + 1 < right) {
+            long mid = (left + right) / 2;
             long total = 0;
             for (long tree: trees) {
-                if (tree > middle) {
-                    total += tree - middle;
-                }
+                if (tree > mid) total += tree - mid;
             }
-
-            if (total < M) {
-                end = middle - 1;
+            if (total >= target) {
+                left = mid;
             } else {
-                start = middle + 1;
+                right = mid;
             }
         }
-
-        return end;
+        return left;
     }
 }
