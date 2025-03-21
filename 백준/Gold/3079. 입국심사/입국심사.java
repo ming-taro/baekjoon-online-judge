@@ -22,7 +22,7 @@ class Main {
         long maxTime = 0L;
         for (long t: time) maxTime = Math.max(maxTime, t);
 
-        long left = -1;
+        long left = 0;
         long right = target * maxTime + 1;  // 최악 = 1개 심사대 * M명
 
         while (left + 1 < right) {
@@ -71,4 +71,5 @@ Math.max() => 8초
 8초 = 4(1번) + 2(2번) + 2(3번) + 2(4번) + 1(5번) = 11명
 ->소요 시간 = mid
 ->mid 시간 동안 심사대에서 수용 가능한 인원을 기준으로 left, right 설정
+->(total >= target)인 경우 중 가장 작은 mid를 구해야 하므로 (left < 최소시간)이 될 때까지 탐색 하면 (left + 1)이 가장 작은 시간이 됨
  */
