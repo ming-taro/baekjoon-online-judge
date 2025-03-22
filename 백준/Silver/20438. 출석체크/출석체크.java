@@ -36,7 +36,12 @@ class Main {
             st = new StringTokenizer(reader.readLine());
             int S = Integer.parseInt(st.nextToken());
             int E = Integer.parseInt(st.nextToken());
+
+            // 출석 하지 않은 학생을 누적 합으로 계산한 경우
             System.out.println(total[E] - total[S - 1]);
+
+            // 출석한 학생을 누적 합으로 계산한 경우 -> 총 학생수(E - S + 1) - 구간합(total[E] - total[S - 1])
+//            System.out.println((E - S + 1) - (total[E] - total[S - 1]));
         }
     }
 }
