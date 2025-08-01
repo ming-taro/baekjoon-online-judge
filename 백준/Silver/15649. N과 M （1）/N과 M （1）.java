@@ -14,14 +14,17 @@ class Main {
 
         boolean[] visited = new boolean[N + 1];
 
-        dfs(0, new int[M], visited);
+        StringBuilder answer = new StringBuilder();
+        dfs(0, new int[M], visited, answer);
+        System.out.println(answer);
     }
 
-    private static void dfs(int current, int[] numbers, boolean[] visited) {
+    private static void dfs(int current, int[] numbers, boolean[] visited, StringBuilder answer) {
         if (current == M) {
             for (int num: numbers) {
-                System.out.print(num + " ");
-            } System.out.println();
+                answer.append(num).append(" ");
+            }
+            answer.append("\n");
             return;
         }
 
@@ -29,7 +32,7 @@ class Main {
             if (!visited[num]) {
                 visited[num] = true;
                 numbers[current] = num;
-                dfs(current + 1, numbers, visited);
+                dfs(current + 1, numbers, visited, answer);
                 visited[num] = false;
             }
         }
