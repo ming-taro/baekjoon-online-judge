@@ -1,29 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-class Node {
-    int row;
-    int col;
-    int distance;
-
-    public Node(int row, int col, int distance) {
-        this.row = row;
-        this.col = col;
-        this.distance = distance;
-    }
-
-    @Override
-    public String toString() {
-        return "row:" + row + ", col:" + col + " > distance: " + distance;
-    }
-}
-
-public class Main {
-    private static char[][] board;
+class Main {
     private static int N, M;
-    private static int maxDistance = Integer.MIN_VALUE;
+    private static char[][] board;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(reader.readLine());
@@ -31,54 +13,65 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         board = new char[N][M];
-
         for (int i = 0; i < N; i++) {
             board[i] = reader.readLine().toCharArray();
         }
 
+        int answer = 0;
+
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 if (board[i][j] == 'L') {
-                    bfs(i, j);
+                    answer = Math.max(answer, bfs(i, j));
                 }
             }
         }
 
-        System.out.println(maxDistance);
+        System.out.println(answer);
     }
 
-    private static void bfs(int row, int col) {
-        Queue<Node> queue = new LinkedList<>();
+    private static int bfs(int row, int col) {
+        int[] dx = { -1, 0, 1, 0 };
+        int[] dy = { 0, 1, 0, -1 };
+
+        Queue<Node> queue = new ArrayDeque<>();
         queue.offer(new Node(row, col, 0));
 
         boolean[][] visited = new boolean[N][M];
         visited[row][col] = true;
 
-        int[] dx = {-1, 0, 1, 0};  //위, 오, 아, 왼
-        int[] dy = {0, 1, 0, -1};
+        int answer = 0;
 
         while (!queue.isEmpty()) {
             Node current = queue.poll();
-            maxDistance = Math.max(maxDistance, current.distance);
-
             for (int i = 0; i < 4; i++) {
-                Node next = new Node(current.row + dx[i], current.col + dy[i], current.distance + 1);
-                if (isWithinRange(next)
-                        && !visited[next.row][next.col]
-                        && board[next.row][next.col] == 'L') {
-                    queue.offer(next);
-                    visited[next.row][next.col] = true;
+                int nextRow = current.row + dx[i];
+                int nextCol = current.col + dy[i];
+                if (isValid(nextRow, nextCol)
+                        && !visited[nextRow][nextCol]
+                        && board[nextRow][nextCol] == 'L') {
+                    visited[nextRow][nextCol] = true;
+                    queue.offer(new Node(nextRow, nextCol, current.count + 1));
+                    answer = Math.max(answer, current.count + 1);
                 }
             }
         }
+
+        return answer;
     }
 
-    private static boolean isWithinRange(Node node) {
-        return node.row >= 0 && node.row < N && node.col >= 0 && node.col < M;
+    private static boolean isValid(int row, int col) {
+        return row >= 0 && row < N && col >= 0 && col < M;
     }
 }
-/*
-->육지(L), 바다(W)
-->상하좌우 이웃한 육지만 이동 가능 == 1시간
-->같은 곳을 두 번 이상X, 멀리 돌아가서도 X
-*/
+
+class Node {
+    int row;
+    int col;
+    int count;
+    public Node(int row, int col, int count) {
+        this.row = row;
+        this.col = col;
+        this.count = count;
+    }
+}
