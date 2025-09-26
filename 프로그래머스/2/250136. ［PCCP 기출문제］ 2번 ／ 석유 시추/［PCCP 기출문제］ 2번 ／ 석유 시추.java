@@ -1,74 +1,77 @@
 import java.util.*;
 
-class Node {
-    int row;
-    int col;
-    public Node(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
-}
-
 class Solution {
-    private static int n;
-    private static int m;
-    private static int[] result;
+    private int n, m;
+    private int[] total;
+    private boolean[][] visited;
     
     public int solution(int[][] land) {
         int answer = 0;
         
-        this.n = land.length;
-        this.m = land[0].length;
-        result = new int[m];
+        n = land.length;
+        m = land[0].length;
+        
+        total = new int[m];
+        visited = new boolean[n][m];
         
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (land[i][j] == 1) {
+                if (!visited[i][j] && land[i][j] == 1) {
                     bfs(new Node(i, j), land);
                 }
             }
         }
         
-        for (int oil: result) {
-            answer = Math.max(answer, oil);
+        for (int t: total) {
+            answer = Math.max(answer, t);
         }
         
         return answer;
     }
     
-    private static void bfs(Node start, int[][] land) {
+    private void bfs(Node start, int[][] land) {
         Queue<Node> queue = new ArrayDeque<>();
         queue.offer(start);
-        land[start.row][start.col] = 0;
-        
-        Set<Integer> column = new HashSet<>();
-        column.add(start.col);
+        visited[start.row][start.col] = true;
         
         int[] dx = { -1, 0, 1, 0 };
         int[] dy = { 0, 1, 0, -1 };
         
-        int total = 1;
+        int count = 1;
+        Set<Integer> col = new HashSet<>();
+        col.add(start.col);
         
         while (!queue.isEmpty()) {
             Node current = queue.poll();
-            
-            for (int i = 0; i < 4; i++) {
-                Node next = new Node(current.row + dx[i], current.col + dy[i]);
-                if (isValid(next) && land[next.row][next.col] == 1) {
-                    column.add(next.col);
-                    queue.offer(next);
-                    land[next.row][next.col] = 0;
-                    total++;
+            for(int i = 0; i < 4; i++) {
+                int nextRow = current.row + dx[i];
+                int nextCol = current.col + dy[i];
+                if (isValid(nextRow, nextCol) 
+                    && !visited[nextRow][nextCol] 
+                    && land[nextRow][nextCol] == 1) {
+                    visited[nextRow][nextCol] = true;
+                    count++;
+                    col.add(nextCol);
+                    queue.offer(new Node(nextRow, nextCol));
                 }
             }
         }
         
-        for (int col: column) {
-            result[col] += total;
+        for (int c: col) {
+            total[c] += count;
         }
     }
     
-    private static boolean isValid(Node node) {
-        return node.row >= 0 && node.row < n && node.col >= 0 && node.col < m;
+    private boolean isValid(int row, int col) {
+        return row >= 0 && row < n && col >= 0 && col < m;
+    }
+}
+
+class Node{
+    int row;
+    int col;
+    public Node(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 }
