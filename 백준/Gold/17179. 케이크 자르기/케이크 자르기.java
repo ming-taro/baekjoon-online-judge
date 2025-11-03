@@ -33,7 +33,7 @@ class Main {
         int left = 0;
         int right = L;   // 자르려는 케이크의 길이 범위
         int answer = 0;
-        while (left + 1< right) {
+        while (left + 1 < right) {
             int mid = (left + right) / 2;      // 가장 작은 케이크의 크기
             int prev = 0;                      // 길이 0부터 시작
             int count = 0;
@@ -48,7 +48,7 @@ class Main {
             if (count == target && L - prev < mid) isValid = false; // 카운트를 다 썼는데 마지막 조각이 더 작은 경우 -> 최소길이 충족X
 
             if (isValid && count >= target) {   // 카운트 충족 -> 케이크 크기 더 늘리기
-                left = mid;
+                left = mid;  // 조건을 만족하는 mid중 가장 큰 값 = left
                 answer = Math.max(answer, mid);
             } else {         // 카운트 부족 -> 케이크 크기 더 줄이기
                 right = mid;
